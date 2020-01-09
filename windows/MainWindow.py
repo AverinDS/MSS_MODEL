@@ -26,3 +26,7 @@ class MainWindow(QtWidgets.QMainWindow):
         status = self.ui.plainTextStatus.toPlainText() + status_text + '\n'
         self.ui.plainTextStatus.setPlainText(status)
         self.ui.plainTextStatus.repaint()
+
+    def clear_text_status(self):
+        self.ui.plainTextStatus.setPlainText("")
+        self.ui.plainTextStatus.repaint()

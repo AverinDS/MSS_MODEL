@@ -14,6 +14,7 @@ class MainWindowController:
         self.window = window
 
     def model_start(self):
+        self.window.clear_text_status()
         model = Model()
         model.set_args(student_name=self.studentName, level=self.level, fgos=self.current_fgos_mode,
                        main_controller=self)
