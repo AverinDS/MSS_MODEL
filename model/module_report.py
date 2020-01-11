@@ -2,7 +2,7 @@ import random as rd
 
 from enumeration.fgos import FGOS
 
-BOARD_PROBLEM = 0.6
+THRESHOLD_PROBLEM = 0.6
 
 
 class ModuleReport:
@@ -72,7 +72,7 @@ class ModuleReport:
         return self.quality
 
     def make_diagnostic(self):
-        if self.quality <= BOARD_PROBLEM:
+        if self.quality <= THRESHOLD_PROBLEM:
             self.model.notify_status("Обнаружена проблема")
             self.find_problem()
         else:
