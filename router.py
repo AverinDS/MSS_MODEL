@@ -1,3 +1,5 @@
+# coding=utf8
+
 from windows.MainWindow import ROUTE_TAG as MAIN_WINDOW_TAG, MainWindow
 
 

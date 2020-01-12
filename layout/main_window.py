@@ -1,4 +1,5 @@
-# -*- coding: utf-8 -*-
+# coding=utf8
+
 
 # Form implementation generated from reading ui file 'main_window.ui'
 #

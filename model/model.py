@@ -1,3 +1,5 @@
+# coding=utf8
+
 from model.module_current_knowledge import get_mark_of_knowledge
 from model.module_report import ModuleReport
 

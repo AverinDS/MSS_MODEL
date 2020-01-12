@@ -1,3 +1,5 @@
+# coding=utf8
+
 from threading import Thread
 
 from enumeration.fgos import FGOS

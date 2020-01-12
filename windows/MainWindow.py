@@ -1,3 +1,5 @@
+# coding=utf8
+
 from PyQt5 import QtWidgets
 
 from enumeration.fgos import FGOS
