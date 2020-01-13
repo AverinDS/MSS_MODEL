@@ -1,148 +1,78 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
-    <class>MainWindow</class>
-    <widget class="QMainWindow" name="MainWindow">
-        <property name="geometry">
-            <rect>
-                <x>0</x>
-                <y>0</y>
-                <width>800</width>
-                <height>600</height>
-            </rect>
-        </property>
-        <property name="windowTitle">
-            <string>MainWindow</string>
-        </property>
-        <widget class="QWidget" name="centralwidget">
-            <widget class="QLabel" name="label">
-                <property name="geometry">
-                    <rect>
-                        <x>20</x>
-                        <y>40</y>
-                        <width>121</width>
-                        <height>16</height>
-                    </rect>
-                </property>
-                <property name="text">
-                    <string>ФИО ученика</string>
-                </property>
-            </widget>
-            <widget class="QLabel" name="label_2">
-                <property name="geometry">
-                    <rect>
-                        <x>20</x>
-                        <y>90</y>
-                        <width>241</width>
-                        <height>16</height>
-                    </rect>
-                </property>
-                <property name="text">
-                    <string>Уровень до которого нужно обучить</string>
-                </property>
-            </widget>
-            <widget class="QGroupBox" name="groupBox">
-                <property name="geometry">
-                    <rect>
-                        <x>20</x>
-                        <y>120</y>
-                        <width>341</width>
-                        <height>121</height>
-                    </rect>
-                </property>
-                <property name="title">
-                    <string>ФГОС стандарты</string>
-                </property>
-                <widget class="QRadioButton" name="rbFgosTrue">
-                    <property name="geometry">
-                        <rect>
-                            <x>10</x>
-                            <y>20</y>
-                            <width>291</width>
-                            <height>20</height>
-                        </rect>
-                    </property>
-                    <property name="text">
-                        <string>ФГОС (всегда соответствует)</string>
-                    </property>
-                    <property name="checked">
-                        <bool>true</bool>
-                    </property>
-                </widget>
-                <widget class="QRadioButton" name="rbFgosFalse">
-                    <property name="geometry">
-                        <rect>
-                            <x>10</x>
-                            <y>50</y>
-                            <width>231</width>
-                            <height>20</height>
-                        </rect>
-                    </property>
-                    <property name="text">
-                        <string>ФГОС (всегда не соответствует)</string>
-                    </property>
-                </widget>
-                <widget class="QRadioButton" name="rbFgosRandom">
-                    <property name="geometry">
-                        <rect>
-                            <x>10</x>
-                            <y>80</y>
-                            <width>241</width>
-                            <height>20</height>
-                        </rect>
-                    </property>
-                    <property name="text">
-                        <string>ФГОС (случайное соответствие)</string>
-                    </property>
-                </widget>
-            </widget>
-            <widget class="QPushButton" name="buttonStartModel">
-                <property name="geometry">
-                    <rect>
-                        <x>130</x>
-                        <y>270</y>
-                        <width>131</width>
-                        <height>32</height>
-                    </rect>
-                </property>
-                <property name="text">
-                    <string>Запуск модели</string>
-                </property>
-            </widget>
-            <widget class="QLineEdit" name="lineEditStudentName">
-                <property name="geometry">
-                    <rect>
-                        <x>122</x>
-                        <y>40</y>
-                        <width>241</width>
-                        <height>21</height>
-                    </rect>
-                </property>
-            </widget>
-            <widget class="QLineEdit" name="lineEditStudentLevel">
-                <property name="geometry">
-                    <rect>
-                        <x>260</x>
-                        <y>90</y>
-                        <width>101</width>
-                        <height>21</height>
-                    </rect>
-                </property>
-                <property name="inputMethodHints">
-                    <set>Qt::ImhPreferNumbers</set>
-                </property>
-            </widget>
-            <widget class="QTextEdit" name="plainTextStatus">
-                <property name="geometry">
-                    <rect>
-                        <x>390</x>
-                        <y>20</y>
-                        <width>391</width>
-                        <height>551</height>
-                    </rect>
-                </property>
-            </widget>
-        </widget>
-    </widget>
-    <resources/>
-    <connections/>
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>766</width>
+    <height>598</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QWidget" name="horizontalLayoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>9</y>
+      <width>741</width>
+      <height>32</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QPushButton" name="button_load_dataset">
+       <property name="text">
+        <string>Load dataset</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="button_analyse">
+       <property name="text">
+        <string>Analyse</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="button_save">
+       <property name="text">
+        <string>Save</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="gridLayoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>50</y>
+      <width>731</width>
+      <height>531</height>
+     </rect>
+    </property>
+    <layout class="QGridLayout" name="gridLayout">
+     <item row="0" column="1">
+      <widget class="QTableWidget" name="tableProperty"/>
+     </item>
+     <item row="0" column="0">
+      <widget class="QTableWidget" name="tableTS"/>
+     </item>
+     <item row="1" column="0">
+      <widget class="QTableWidget" name="tablePlot"/>
+     </item>
+     <item row="1" column="1">
+      <widget class="QTableWidget" name="tableAllProperty"/>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
 </ui>

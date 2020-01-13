@@ -1,9 +1,7 @@
 # coding=utf8
 
-from threading import Thread
-
 from enumeration.fgos import FGOS
-from model.model import Model
+import pandas as ps
 
 
 class MainWindowController:
@@ -11,26 +9,19 @@ class MainWindowController:
     current_fgos_mode = FGOS.ALWAYS_TRUE
     level = 1
     studentName = ""
+    data = None
 
     def __init__(self, window):
         self.window = window
 
-    def model_start(self):
-        self.window.clear_text_status()
-        model = Model()
-        model.set_args(student_name=self.studentName, level=self.level, fgos=self.current_fgos_mode,
-                       main_controller=self)
+    def file_chosen(self, file_path):
+        print(file_path)
+        self.data = ps.read_csv(file_path, index_col=None, header=None, sep="	")
+        self.window.fill_ts(self.data)
+        # for i, row in self.data.iterrows():
+        #     for j in range(len(row)):
+        #         self.data[i][j] = float(row[j].replace(",", "."))
+        # print(self.data.head())
 
-        model.start()
 
-    def on_selected_fgos(self, mode):
-        self.current_fgos_mode = mode
 
-    def on_selected_level(self, level):
-        self.level = level
-
-    def on_changed_student_name(self, student_name):
-        self.studentName = student_name
-
-    def notify_status(self, status_text):
-        self.window.notify_status(status_text)
