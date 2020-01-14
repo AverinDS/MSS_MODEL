@@ -1,14 +1,10 @@
 # coding=utf8
 
-from enumeration.fgos import FGOS
 import pandas as ps
 
 
 class MainWindowController:
     window = None
-    current_fgos_mode = FGOS.ALWAYS_TRUE
-    level = 1
-    studentName = ""
     data = None
 
     def __init__(self, window):
@@ -18,10 +14,14 @@ class MainWindowController:
         print(file_path)
         self.data = ps.read_csv(file_path, index_col=None, header=None, sep="	")
         self.window.fill_ts(self.data)
-        # for i, row in self.data.iterrows():
-        #     for j in range(len(row)):
-        #         self.data[i][j] = float(row[j].replace(",", "."))
-        # print(self.data.head())
+        for i_row, row in self.data.iterrows():
+            for i_col in range(0, len(self.data.columns)):
+                self.data[i_col][i_row] = float(self.data[i_col][i_row].replace(",","."))
+        print(self.data.head())
+        self.show_graphic()
+
+    def show_graphic(self):
+        self.window.show_graphic(self.data)
 
 
 

@@ -5,6 +5,7 @@ from PyQt5.QtWidgets import QTableWidgetItem, QFileDialog
 
 from layout.main_window import Ui_MainWindow
 from windows.MainWindowController import MainWindowController
+import matplotlib.pyplot as plt
 
 ROUTE_TAG = 'MainWindow'
 
@@ -42,6 +43,12 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.tableTS.setColumnCount(len(headers))
         self.ui.tableTS.setHorizontalHeaderLabels(headers)
 
-        for i, row in df.iterrows():
-            for j in range(self.ui.tableTS.columnCount()):
-                self.ui.tableTS.setItem(i, j, QTableWidgetItem(str(row[j])))
+        for i_row, row in df.iterrows():
+            for i_col in range(self.ui.tableTS.columnCount()):
+                self.ui.tableTS.setItem(i_row, i_col, QTableWidgetItem(str(row[i_col])))
+
+    def show_graphic(self, df):
+        df.plot()
+        plt.show()
+
+
