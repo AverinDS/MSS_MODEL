@@ -2,7 +2,8 @@
 
 import pandas as ps
 
-from model.model_analysis import ModelAnalysis
+from model.interactor import Interactor
+from model.model_analysis import *
 
 
 class MainWindowController:
@@ -20,7 +21,7 @@ class MainWindowController:
         self.window.fill_ts(self.data)
         for i_row, row in self.data.iterrows():
             for i_col in range(0, len(self.data.columns)):
-                self.data[i_col][i_row] = float(self.data[i_col][i_row].replace(",","."))
+                self.data[i_col][i_row] = float(self.data[i_col][i_row].replace(",", "."))
         print(self.data.head())
         self.show_graphic()
 
@@ -28,15 +29,12 @@ class MainWindowController:
         self.window.show_graphic(self.data)
 
     def make_analysis(self):
+        list_model_analysis = []
+
         if self.data is None:
-            self.window.show_error("Please, chose file first")
+            self.window.show_error("Please, choose file first")
             return
-        self.window.show_properties([ModelAnalysis(), ModelAnalysis])
+        for i_row, row in self.data.iterrows():
+            list_model_analysis.append(Interactor(row.tolist()).get_model_analysis())
 
-
-
-
-
-
-
-
+        self.window.show_properties(list_model_analysis)

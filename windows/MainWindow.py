@@ -1,6 +1,7 @@
 # coding=utf8
 
 from PyQt5 import QtWidgets
+from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QTableWidgetItem, QFileDialog, QMessageBox
 
 from controller.MainWindowController import MainWindowController
