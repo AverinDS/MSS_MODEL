@@ -1,5 +1,10 @@
+import datetime
+
 import numpy as np
+from pandas import DataFrame, Series, DatetimeIndex
 from sklearn.linear_model import LinearRegression
+from statsmodels.tsa.seasonal import seasonal_decompose
+import pandas as ps
 
 from model.model_analysis import *
 
@@ -28,7 +33,13 @@ class Interactor:
         return str(model.coef_[0][0])
 
     def determine_season(self):
-        return ""
+        x = ([ps.to_datetime(i) for i in range(1, len(self.timeseries)+1)])
+        data = DataFrame(self.timeseries, index=x)
+        data.index = x
+        data.head()
+        res = seasonal_decompose(data, freq=1)
+        season = res.seasonal
+        return str((season.max() - season.min())[0] * 0.03 > len(self.timeseries))
 
     def determine_oscillation(self):
         return ""
