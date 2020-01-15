@@ -2,15 +2,19 @@
 
 import pandas as ps
 
+from model.model_analysis import ModelAnalysis
+
 
 class MainWindowController:
     window = None
     data = None
+    model = ModelAnalysis()
 
     def __init__(self, window):
         self.window = window
 
     def file_chosen(self, file_path):
+        self.model = ModelAnalysis()
         print(file_path)
         self.data = ps.read_csv(file_path, index_col=None, header=None, sep="	")
         self.window.fill_ts(self.data)
@@ -22,6 +26,17 @@ class MainWindowController:
 
     def show_graphic(self):
         self.window.show_graphic(self.data)
+
+    def make_analysis(self):
+        if self.data is None:
+            self.window.show_error("Please, chose file first")
+            return
+        self.window.show_properties([ModelAnalysis(), ModelAnalysis])
+
+
+
+
+
 
 
 

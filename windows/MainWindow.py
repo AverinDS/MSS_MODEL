@@ -1,10 +1,10 @@
 # coding=utf8
 
 from PyQt5 import QtWidgets
-from PyQt5.QtWidgets import QTableWidgetItem, QFileDialog
+from PyQt5.QtWidgets import QTableWidgetItem, QFileDialog, QMessageBox
 
+from controller.MainWindowController import MainWindowController
 from layout.main_window import Ui_MainWindow
-from windows.MainWindowController import MainWindowController
 
 ROUTE_TAG = 'MainWindow'
 
@@ -19,6 +19,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.controller = MainWindowController(self)
         self.controller = MainWindowController(self)
         self.ui.button_load_dataset.clicked.connect(lambda i: self.choose_file())
+        self.ui.button_analyse.clicked.connect(lambda i: self.controller.make_analysis())
 
     def choose_file(self):
         self.controller = MainWindowController(self)
@@ -44,3 +45,25 @@ class MainWindow(QtWidgets.QMainWindow):
         x_values = [i for i in range(0, len(df.columns))]
         for i_row, row in df.iterrows():
             self.ui.widgetGraphic.plot(x_values, row.tolist())
+
+    def show_properties(self, list_model_analysis):
+        if len(list_model_analysis) == 0:
+            return
+
+        self.ui.tableProperty.setRowCount(len(list_model_analysis))
+        self.ui.tableProperty.setColumnCount(len(list_model_analysis[0].properties.keys()))
+        self.ui.tableProperty.setHorizontalHeaderLabels(list_model_analysis[0].properties.keys())
+
+        for index_model in range(len(list_model_analysis)):
+            column = 0
+            for key in list_model_analysis[index_model].properties.keys():
+                self.ui.tableProperty.setItem(index_model, column, QTableWidgetItem(
+                    list_model_analysis[index_model].properties[key]))
+                column += 1
+
+    def show_error(self, err):
+        dialog = QMessageBox()
+        dialog.setIcon(QMessageBox.Critical)
+        dialog.setText(err)
+        dialog.addButton(QMessageBox.Ok)
+        dialog.exec()
