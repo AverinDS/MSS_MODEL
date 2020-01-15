@@ -5,7 +5,6 @@ from PyQt5.QtWidgets import QTableWidgetItem, QFileDialog
 
 from layout.main_window import Ui_MainWindow
 from windows.MainWindowController import MainWindowController
-import matplotlib.pyplot as plt
 
 ROUTE_TAG = 'MainWindow'
 
@@ -18,12 +17,6 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
         self.controller = MainWindowController(self)
-        self.ui.tableTS.setColumnCount(13)
-        self.ui.tableTS.setRowCount(3)
-
-        self.ui.tableTS.setItem(0, 0, QTableWidgetItem("5"))
-        self.ui.tableTS.setItem(0, 1, QTableWidgetItem("5"))
-        self.ui.tableTS.setItem(0, 2, QTableWidgetItem("5"))
         self.controller = MainWindowController(self)
         self.ui.button_load_dataset.clicked.connect(lambda i: self.choose_file())
 
@@ -44,11 +37,10 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.tableTS.setHorizontalHeaderLabels(headers)
 
         for i_row, row in df.iterrows():
-            for i_col in range(self.ui.tableTS.columnCount()):
+            for i_col in range(len(df.columns)):
                 self.ui.tableTS.setItem(i_row, i_col, QTableWidgetItem(str(row[i_col])))
 
     def show_graphic(self, df):
-        df.plot()
-        plt.show()
-
-
+        x_values = [i for i in range(0, len(df.columns))]
+        for i_row, row in df.iterrows():
+            self.ui.widgetGraphic.plot(x_values, row.tolist())

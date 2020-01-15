@@ -63,16 +63,24 @@
      <item row="0" column="0">
       <widget class="QTableWidget" name="tableTS"/>
      </item>
-     <item row="1" column="0">
-      <widget class="QTableWidget" name="tablePlot"/>
-     </item>
      <item row="1" column="1">
       <widget class="QTableWidget" name="tableAllProperty"/>
+     </item>
+     <item row="1" column="0">
+      <widget class="PlotWidget" name="widgetGraphic" native="true"/>
      </item>
     </layout>
    </widget>
   </widget>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>PlotWidget</class>
+   <extends>QWidget</extends>
+   <header>pyqtgraph</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>
