@@ -33,7 +33,7 @@ class Model:
         self.main_controller.notify_status(
             "Заработано баллов {mark_for_student}".format(mark_for_student=self.mark_for_student))
         self.report_module = ModuleReport(fgos_mode=self.fgos_mode, model=self)
-        self.main_controller.notify_status("Качество системы: " + str(self.report_module.get_quality()))
+        self.main_controller.notify_status("Качество процесса образования: " + str(self.report_module.get_quality()))
         self.report_module.make_diagnostic()
 
     def notify_status(self, status):
