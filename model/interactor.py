@@ -1,19 +1,26 @@
-import datetime
+from datetime import datetime
 
 import numpy as np
-from pandas import DataFrame, Series, DatetimeIndex
+import pandas as ps
+from dateutil.relativedelta import relativedelta
+from pandas import DataFrame
 from sklearn.linear_model import LinearRegression
 from statsmodels.tsa.seasonal import seasonal_decompose
-import pandas as ps
 
 from model.model_analysis import *
 
 
 class Interactor:
     timeseries = []
+    k = None
+    timeseries_without_trend = []
+    decomposition = None
+    x = []
 
     def __init__(self, data_frame_row_list):
         self.timeseries = data_frame_row_list
+        self.x = (
+            [ps.to_datetime(datetime.today() + relativedelta(months=i)) for i in range(1, len(self.timeseries) + 1)])
 
     def get_model_analysis(self):
         model_analysis = ModelAnalysis()
@@ -27,22 +34,21 @@ class Interactor:
         return model_analysis
 
     def determine_trend(self):
-        X = np.array([i for i in range(len(self.timeseries))]).reshape(-1,1)
+        X = np.array([i for i in range(len(self.timeseries))]).reshape(-1, 1)
         y = np.array(self.timeseries).reshape(-1, 1)
         model = LinearRegression().fit(X, y)
+        self.delete_trend(k=model.coef_[0][0])
         return str(model.coef_[0][0])
 
     def determine_season(self):
-        x = ([ps.to_datetime(i) for i in range(1, len(self.timeseries)+1)])
-        data = DataFrame(self.timeseries, index=x)
-        data.index = x
-        data.head()
-        res = seasonal_decompose(data, freq=1)
-        season = res.seasonal
+        self.make_decomposition()
+        season = self.decomposition.seasonal
         return str((season.max() - season.min())[0] * 0.03 > len(self.timeseries))
 
     def determine_oscillation(self):
-        return ""
+        self.make_decomposition()
+        resid = self.decomposition.resid
+        return str((resid.max() - resid.min())[0] * 0.03 > len(self.timeseries))
 
     def determine_single_anomaly(self):
         return ""
@@ -51,7 +57,27 @@ class Interactor:
         return ""
 
     def determine_mean_value(self):
-        return np.mean(self.timeseries)
+        return str(np.mean(self.timeseries))
 
     def determine_length(self):
-        return len(self.timeseries)
+        return str(len(self.timeseries))
+
+    def delete_trend(self, k):
+        self.timeseries_without_trend = []
+        for i in range(0, len(self.timeseries)):
+            self.timeseries_without_trend.append(self.timeseries[i] - k * i)
+
+        # print(self.timeseries_without_trend)
+        # plt.plot(self.timeseries)
+        # plt.plot(self.timeseries_without_trend)
+        # plt.show()
+
+    def make_decomposition(self):
+        if self.decomposition is not None:
+            print("Decomposition already made")
+            return
+        data = DataFrame(self.timeseries_without_trend, index=self.x)
+        data.head()
+        self.decomposition = seasonal_decompose(data, freq=1, model='additive')
+        # resplot = self.decomposition.plot()
+        # resplot.show()
