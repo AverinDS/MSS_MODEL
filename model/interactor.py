@@ -33,15 +33,15 @@ class Interactor:
 
     def get_model_analysis(self):
         model_analysis = ModelAnalysis()
-        model_analysis.properties[TREND] = self.determine_trend()
-        model_analysis.properties[SEASON] = self.determine_season()
-        model_analysis.properties[OSCILLATION] = self.determine_oscillation()
-        count_single, count_group = self.determine_anomaly()
-        model_analysis.properties[SINGLE_ANOMALY] = count_single
-        model_analysis.properties[GROUP_ANOMALY] = count_group
-        model_analysis.properties[MEAN_VALUE] = self.determine_mean_value()
-        model_analysis.properties[LENGTH] = self.determine_length()
-        model_analysis.properties["index"] = random.randint(0, 10000)
+        model_analysis.TREND = self.determine_trend()
+        model_analysis.SEASON = self.determine_season()
+        model_analysis.OSCILLATION = self.determine_oscillation()
+        count_single_a, count_group_a = self.determine_anomaly()
+        model_analysis.SINGLE_ANOMALY = count_single_a
+        model_analysis.GROUP_ANOMALY = count_group_a
+        model_analysis.MEAN_VALUE = self.determine_mean_value()
+        model_analysis.LENGTH = self.determine_length()
+        model_analysis.index = random.randint(0, 10000)
         return model_analysis
 
     def determine_trend(self):

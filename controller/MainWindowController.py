@@ -10,6 +10,7 @@ class MainWindowController:
     window = None
     data = None
     model = ModelAnalysis()
+    list_model_analysis = []
 
     def __init__(self, window):
         self.window = window
@@ -29,13 +30,12 @@ class MainWindowController:
         self.window.show_graphic(self.data)
 
     def make_analysis(self):
-        list_model_analysis = []
 
         if self.data is None:
             self.window.show_error("Please, choose file first")
             return
         for i_row, row in self.data.iterrows():
             interactor = Interactor(row.tolist())
-            list_model_analysis.insert(0, interactor.get_model_analysis())
+            self.list_model_analysis.insert(0, interactor.get_model_analysis())
 
-        self.window.show_properties(list_model_analysis)
+        self.window.show_properties(self.list_model_analysis)

@@ -1,11 +1,11 @@
 # coding=utf8
 
 from PyQt5 import QtWidgets
-from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QTableWidgetItem, QFileDialog, QMessageBox
 
 from controller.MainWindowController import MainWindowController
 from layout.main_window import Ui_MainWindow
+from model.model_analysis import fields, propertiesDicIndex
 
 ROUTE_TAG = 'MainWindow'
 
@@ -54,14 +54,14 @@ class MainWindow(QtWidgets.QMainWindow):
             return
 
         self.ui.tableProperty.setRowCount(len(list_model_analysis))
-        self.ui.tableProperty.setColumnCount(len(list_model_analysis[0].properties.keys()))
-        self.ui.tableProperty.setHorizontalHeaderLabels(list_model_analysis[0].properties.keys())
+        self.ui.tableProperty.setColumnCount(len(fields))
+        self.ui.tableProperty.setHorizontalHeaderLabels(fields)
 
         for index_model in range(len(list_model_analysis)):
             column = 0
-            for key in list_model_analysis[index_model].properties.keys():
+            for key in propertiesDicIndex.keys():
                 self.ui.tableProperty.setItem(index_model, column, QTableWidgetItem(
-                    list_model_analysis[index_model].properties[key]))
+                    list_model_analysis[index_model].get_property(propertiesDicIndex[key])))
                 column += 1
 
     def show_error(self, err):
