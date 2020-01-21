@@ -18,4 +18,5 @@ class ModelAnalysis:
         GROUP_ANOMALY: "Not determined",
         MEAN_VALUE: "Not determined",
         LENGTH: "Not determined",
+        "index": -1
     }

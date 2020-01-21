@@ -1,13 +1,19 @@
 from datetime import datetime
 
+import matplotlib.colors as colors
 import numpy as np
 import pandas as ps
 from dateutil.relativedelta import relativedelta
 from pandas import DataFrame
+from scipy.spatial import distance
+from sklearn.cluster import DBSCAN
 from sklearn.linear_model import LinearRegression
 from statsmodels.tsa.seasonal import seasonal_decompose
 
 from model.model_analysis import *
+import random
+
+colors_list = list(colors._colors_full_map.values())
 
 
 class Interactor:
@@ -16,21 +22,26 @@ class Interactor:
     timeseries_without_trend = []
     decomposition = None
     x = []
+    db = None
+    isClustering = False
 
     def __init__(self, data_frame_row_list):
         self.timeseries = data_frame_row_list
         self.x = (
             [ps.to_datetime(datetime.today() + relativedelta(months=i)) for i in range(1, len(self.timeseries) + 1)])
 
+
     def get_model_analysis(self):
         model_analysis = ModelAnalysis()
         model_analysis.properties[TREND] = self.determine_trend()
         model_analysis.properties[SEASON] = self.determine_season()
         model_analysis.properties[OSCILLATION] = self.determine_oscillation()
-        model_analysis.properties[SINGLE_ANOMALY] = self.determine_single_anomaly()
-        model_analysis.properties[GROUP_ANOMALY] = self.determine_group_anomaly()
+        count_single, count_group = self.determine_anomaly()
+        model_analysis.properties[SINGLE_ANOMALY] = count_single
+        model_analysis.properties[GROUP_ANOMALY] = count_group
         model_analysis.properties[MEAN_VALUE] = self.determine_mean_value()
         model_analysis.properties[LENGTH] = self.determine_length()
+        model_analysis.properties["index"] = random.randint(0, 10000)
         return model_analysis
 
     def determine_trend(self):
@@ -50,11 +61,57 @@ class Interactor:
         resid = self.decomposition.resid
         return str((resid.max() - resid.min())[0] * 0.03 > len(self.timeseries))
 
-    def determine_single_anomaly(self):
-        return ""
+    def determine_anomaly(self):
+        x = np.array([i for i in range(0, len(self.timeseries_without_trend))])  # .reshape(-1,1)
+        y = np.array(self.timeseries_without_trend)  # .reshape(-1, 1)
+        data = []
 
-    def determine_group_anomaly(self):
-        return ""
+        for i in range(len(x)):
+            data.append(np.array([x[i], y[i]]))
+
+        data = np.array(data)
+
+        euclidians = []
+        for index in range(1, len(data)):
+            euclidians.append(
+                distance.euclidean(
+                    (data[index][0], data[index][1])
+                    , (data[index - 1][0], data[index - 1][1])
+                )
+            )
+        euclidians = np.mean(euclidians)
+
+        self.db = DBSCAN(eps=euclidians, min_samples=1)
+        self.db.fit(data)
+
+        n_clusters_ = len(set(self.db.labels_))  # - (1 if -1 in clust.labels_ else 0)
+        clusters_dict = {i: np.where(self.db.labels_ == i)[0] for i in range(-1, n_clusters_)}
+        # import matplotlib.pyplot as plt
+        # for key in clusters_dict.keys():
+        #     for i in clusters_dict[key]:
+        #         if key == -1:
+        #             plt.scatter(i, y[i], c='black',
+        #                         label='cluster' + str(key))
+        #         else:
+        #             plt.scatter(i, y[i], c=colors_list[key],
+        #                         label='cluster' + str(key))
+        #
+        # plt.show()
+        count_single = 0
+        count_group = 0
+        max_key_group = -1
+
+        for key in clusters_dict.keys():
+            if max_key_group == -1 or len(clusters_dict[key]) > len(clusters_dict[max_key_group]):
+                max_key_group = key
+
+        for key in clusters_dict.keys():
+            if len(clusters_dict[key]) == 1:
+                count_single += 1
+            elif key != max_key_group and len(clusters_dict[key]) > 0:
+                count_group += 1
+
+        return str(count_single), str(count_group)
 
     def determine_mean_value(self):
         return str(np.mean(self.timeseries))

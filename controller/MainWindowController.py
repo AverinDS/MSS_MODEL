@@ -35,6 +35,7 @@ class MainWindowController:
             self.window.show_error("Please, choose file first")
             return
         for i_row, row in self.data.iterrows():
-            list_model_analysis.append(Interactor(row.tolist()).get_model_analysis())
+            interactor = Interactor(row.tolist())
+            list_model_analysis.insert(0, interactor.get_model_analysis())
 
         self.window.show_properties(list_model_analysis)

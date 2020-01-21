@@ -18,9 +18,11 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
         self.controller = MainWindowController(self)
-        self.controller = MainWindowController(self)
         self.ui.button_load_dataset.clicked.connect(lambda i: self.choose_file())
-        self.ui.button_analyse.clicked.connect(lambda i: self.controller.make_analysis())
+        self.ui.button_analyse.clicked.connect(self.start_analysis)
+
+    def start_analysis(self):
+        self.controller.make_analysis()
 
     def choose_file(self):
         self.controller = MainWindowController(self)
