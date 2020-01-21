@@ -1,3 +1,4 @@
+import random
 from datetime import datetime
 
 import matplotlib.colors as colors
@@ -5,13 +6,13 @@ import numpy as np
 import pandas as ps
 from dateutil.relativedelta import relativedelta
 from pandas import DataFrame
+from scipy import stats
 from scipy.spatial import distance
 from sklearn.cluster import DBSCAN
 from sklearn.linear_model import LinearRegression
 from statsmodels.tsa.seasonal import seasonal_decompose
 
 from model.model_analysis import *
-import random
 
 colors_list = list(colors._colors_full_map.values())
 
@@ -29,7 +30,6 @@ class Interactor:
         self.timeseries = data_frame_row_list
         self.x = (
             [ps.to_datetime(datetime.today() + relativedelta(months=i)) for i in range(1, len(self.timeseries) + 1)])
-
 
     def get_model_analysis(self):
         model_analysis = ModelAnalysis()
@@ -138,3 +138,19 @@ class Interactor:
         self.decomposition = seasonal_decompose(data, freq=1, model='additive')
         # resplot = self.decomposition.plot()
         # resplot.show()
+
+    def get_kendal_tau(self, list_models):
+        taus = []
+
+        for key in propertiesDicIndex:
+            property_correllations = []
+            for model in list_models:
+                if model.get_property(propertiesDicIndex[key]) == "True":
+                    property_correllations.append(1)
+                elif model.get_property(propertiesDicIndex[key]) == "False":
+                    property_correllations.append(0)
+                else:
+                    property_correllations.append(float(model.get_property(propertiesDicIndex[key])))
+
+            taus.append(str(stats.kendalltau([i for i in range(len(list_models))], property_correllations).correlation))
+        return taus

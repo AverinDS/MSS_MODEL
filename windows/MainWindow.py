@@ -63,6 +63,17 @@ class MainWindow(QtWidgets.QMainWindow):
                 self.ui.tableProperty.setItem(index_model, column, QTableWidgetItem(
                     list_model_analysis[index_model].get_property(propertiesDicIndex[key])))
                 column += 1
+        self.ui.tableProperty.resizeColumnsToContents()
+
+    def show_taus(self, tau_list):
+        self.ui.tableAllProperty.setColumnCount(len(fields))
+        self.ui.tableAllProperty.setHorizontalHeaderLabels(fields)
+        self.ui.tableAllProperty.setRowCount(1)
+        for i in range(len(tau_list)):
+            self.ui.tableAllProperty.setItem(0, i, QTableWidgetItem(
+                tau_list[i]))
+        self.ui.tableAllProperty.resizeColumnsToContents()
+
 
     def show_error(self, err):
         dialog = QMessageBox()
