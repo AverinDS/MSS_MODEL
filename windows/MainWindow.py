@@ -6,6 +6,8 @@ from PyQt5.QtWidgets import QTableWidgetItem, QFileDialog, QMessageBox
 from controller.MainWindowController import MainWindowController
 from layout.main_window import Ui_MainWindow
 from model.model_analysis import fields, propertiesDicIndex
+import numpy
+import matplotlib.pyplot as plt
 
 ROUTE_TAG = 'MainWindow'
 
@@ -20,6 +22,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.controller = MainWindowController(self)
         self.ui.button_load_dataset.clicked.connect(lambda i: self.choose_file())
         self.ui.button_analyse.clicked.connect(self.start_analysis)
+        self.ui.widgetGraphic.setBackground([0, 7, 3, 1])
 
     def start_analysis(self):
         self.controller.make_analysis()
@@ -41,13 +44,22 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.tableTS.setHorizontalHeaderLabels(headers)
 
         for i_row, row in df.iterrows():
-            for i_col in range(len(df.columns)):
-                self.ui.tableTS.setItem(i_row, i_col, QTableWidgetItem(str(row[i_col])))
+            column_i = 0
+            for i_col in df.columns:
+                self.ui.tableTS.setItem(i_row, column_i, QTableWidgetItem(str(row[i_col])))
+                column_i+=1
 
     def show_graphic(self, df):
-        x_values = [i for i in range(0, len(df.columns))]
         for i_row, row in df.iterrows():
-            self.ui.widgetGraphic.plot(x_values, row.tolist())
+            y_values = [i for i in row.tolist() if not numpy.isnan(i)]
+            x_values = [i for i in range(len(y_values))]
+            self.ui.widgetGraphic.plot(x_values, y_values)
+            # self.ui.widgetGraphic.viewRange([min(x_values), max(x_values), min(y_values), max(y_values)])
+
+            self.ui.widgetGraphic.setXRange(0, max(x_values))
+            self.ui.widgetGraphic.setYRange(0, max(y_values))
+
+
 
     def show_properties(self, list_model_analysis):
         if len(list_model_analysis) == 0:
