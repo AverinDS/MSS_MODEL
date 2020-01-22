@@ -40,9 +40,6 @@ class Ui_MainWindow(object):
         self.button_analyse = QtWidgets.QPushButton(self.horizontalLayoutWidget)
         self.button_analyse.setObjectName("button_analyse")
         self.horizontalLayout.addWidget(self.button_analyse)
-        self.button_save = QtWidgets.QPushButton(self.horizontalLayoutWidget)
-        self.button_save.setObjectName("button_save")
-        self.horizontalLayout.addWidget(self.button_save)
         self.gridLayoutWidget = QtWidgets.QWidget(self.centralwidget)
         self.gridLayoutWidget.setGeometry(QtCore.QRect(10, 50, 1541, 861))
         self.gridLayoutWidget.setObjectName("gridLayoutWidget")
@@ -84,5 +81,4 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.button_load_dataset.setText(_translate("MainWindow", "Load dataset"))
         self.button_analyse.setText(_translate("MainWindow", "Analyse"))
-        self.button_save.setText(_translate("MainWindow", "Save"))
 from pyqtgraph import PlotWidget

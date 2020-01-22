@@ -1,5 +1,5 @@
 # coding=utf8
-
+import math
 import pandas as ps
 
 from model.interactor import Interactor
@@ -22,7 +22,7 @@ class MainWindowController:
         self.window.fill_ts(self.data)
         for i_row, row in self.data.iterrows():
             for i_col in range(0, len(self.data.columns)):
-                self.data[i_col][i_row] = float(self.data[i_col][i_row].replace(",", "."))
+                    self.data[i_col][i_row] = float(self.data[i_col][i_row])
         print(self.data.head())
         self.show_graphic()
 

@@ -1,3 +1,4 @@
+import math
 import random
 from datetime import datetime
 
@@ -28,6 +29,8 @@ class Interactor:
 
     def __init__(self, data_frame_row_list):
         self.timeseries = data_frame_row_list
+        self.timeseries = [i for i in self.timeseries if not math.isnan(i)]
+
         self.x = (
             [ps.to_datetime(datetime.today() + relativedelta(months=i)) for i in range(1, len(self.timeseries) + 1)])
 
