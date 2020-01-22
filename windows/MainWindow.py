@@ -66,9 +66,9 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.tableProperty.resizeColumnsToContents()
 
     def show_taus(self, tau_list):
+        self.ui.tableAllProperty.setRowCount(1)
         self.ui.tableAllProperty.setColumnCount(len(fields))
         self.ui.tableAllProperty.setHorizontalHeaderLabels(fields)
-        self.ui.tableAllProperty.setRowCount(1)
         for i in range(len(tau_list)):
             self.ui.tableAllProperty.setItem(0, i, QTableWidgetItem(
                 tau_list[i]))
