@@ -60,9 +60,11 @@ class Interactor:
         return str((season.max() - season.min())[0] * 0.03 > len(self.timeseries))
 
     def determine_oscillation(self):
-        self.make_decomposition()
-        resid = self.decomposition.resid
-        return str((resid.max() - resid.min())[0] * 0.03 > len(self.timeseries))
+        return str(np.var(self.timeseries_without_trend))
+
+        # self.make_decomposition()
+        # resid = self.decomposition.resid
+        # return str((resid.max() - resid.min())[0] * 0.03 > len(self.timeseries))
 
     def determine_anomaly(self):
         x = np.array([i for i in range(0, len(self.timeseries_without_trend))])  # .reshape(-1,1)
