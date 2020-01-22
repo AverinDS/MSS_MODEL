@@ -55,9 +55,10 @@ class Interactor:
         return str(model.coef_[0][0])
 
     def determine_season(self):
-        self.make_decomposition()
-        season = self.decomposition.seasonal
-        return str((season.max() - season.min())[0] * 0.03 > len(self.timeseries))
+        return str(random.randint(1,10))
+        # self.make_decomposition()
+        # season = self.decomposition.seasonal
+        # return str((season.max() - season.min())[0] * 0.03 > len(self.timeseries))
 
     def determine_oscillation(self):
         return str(np.var(self.timeseries_without_trend))
