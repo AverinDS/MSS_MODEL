@@ -74,7 +74,6 @@ class MainWindow(QtWidgets.QMainWindow):
                 tau_list[i]))
         self.ui.tableAllProperty.resizeColumnsToContents()
 
-
     def show_error(self, err):
         dialog = QMessageBox()
         dialog.setIcon(QMessageBox.Critical)

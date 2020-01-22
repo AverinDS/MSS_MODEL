@@ -124,10 +124,12 @@ class Interactor:
         for i in range(0, len(self.timeseries)):
             self.timeseries_without_trend.append(self.timeseries[i] - k * i)
 
-        # print(self.timeseries_without_trend)
+        # import matplotlib.pyplot as plt
         # plt.plot(self.timeseries)
         # plt.plot(self.timeseries_without_trend)
         # plt.show()
+        # print(self.timeseries_without_trend)
+
 
     def make_decomposition(self):
         if self.decomposition is not None:
