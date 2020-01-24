@@ -18,7 +18,7 @@ class MainWindowController:
     def file_chosen(self, file_path):
         self.model = ModelAnalysis()
         print(file_path)
-        self.data = ps.read_csv(file_path, index_col=None, header=None, sep=";")
+        self.data = ps.read_csv(file_path, index_col=None, header=None, sep=";", error_bad_lines=False)
         cols = [0, 1, 2]
 
         self.data = self.data.drop(cols, axis=1)
