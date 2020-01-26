@@ -55,7 +55,7 @@ class Interactor:
         return str(model.coef_[0][0])
 
     def determine_season(self):
-        return str(random.randint(1,10))
+        return str(random.randint(1, 10))
         # self.make_decomposition()
         # season = self.decomposition.seasonal
         # return str((season.max() - season.min())[0] * 0.03 > len(self.timeseries))
@@ -136,7 +136,6 @@ class Interactor:
         # plt.show()
         # print(self.timeseries_without_trend)
 
-
     def make_decomposition(self):
         if self.decomposition is not None:
             print("Decomposition already made")
@@ -149,6 +148,7 @@ class Interactor:
 
     def get_kendal_tau(self, list_models):
         taus = []
+        lingv = []
 
         for key in propertiesDicIndex:
             property_correllations = []
@@ -161,4 +161,27 @@ class Interactor:
                     property_correllations.append(float(model.get_property(propertiesDicIndex[key])))
 
             taus.append(str(stats.kendalltau([i for i in range(len(list_models))], property_correllations).correlation))
-        return taus
+
+        for k in taus:
+            lingv.append(self.tau_analysis(float(k)))
+
+
+        return taus, lingv
+
+    def tau_analysis(self, tau):
+        if tau == 0 or math.isnan(tau):
+            return 'Корреляция не обнаружена'
+        if tau > 0:
+            if tau < 0.4:
+                return "Прямопропорционалая корреляция не выражена"
+            elif tau < 0.7:
+                return "Прямопропорционалая корреляция слабовыраженная"
+            elif tau <= 1:
+                return "Прямопропорционалая корреляция ярковыраженная"
+        elif tau < 0:
+            if tau > -0.4:
+                return "Обратнопропорциональная корреляция не выражена"
+            elif tau > -0.7:
+                return "Обратнопропорциональная корреляция слабовыраженная"
+            elif tau >= -1:
+                return "Обратнопропорциональная корреляция ярковыраженная обратнопропорциональная"

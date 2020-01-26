@@ -42,4 +42,5 @@ class MainWindowController:
             self.list_model_analysis.append(interactor.get_model_analysis())
 
         self.window.show_properties(self.list_model_analysis)
-        self.window.show_taus(Interactor([]).get_kendal_tau(self.list_model_analysis))
+        taus, lingv = Interactor([]).get_kendal_tau(self.list_model_analysis)
+        self.window.show_taus(taus, lingv)

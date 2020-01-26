@@ -77,13 +77,18 @@ class MainWindow(QtWidgets.QMainWindow):
                 column += 1
         self.ui.tableProperty.resizeColumnsToContents()
 
-    def show_taus(self, tau_list):
-        self.ui.tableAllProperty.setRowCount(1)
-        self.ui.tableAllProperty.setColumnCount(len(fields))
+    def show_taus(self, taus, ling):
+        self.ui.tableAllProperty.setRowCount(2)
+        self.ui.tableAllProperty.setColumnCount(len(taus))
         self.ui.tableAllProperty.setHorizontalHeaderLabels(fields)
-        for i in range(len(tau_list)):
+        for i in range(len(taus)):
             self.ui.tableAllProperty.setItem(0, i, QTableWidgetItem(
-                tau_list[i]))
+                taus[i]))
+
+        for i in range(len(ling)):
+            self.ui.tableAllProperty.setItem(1, i, QTableWidgetItem(
+                ling[i]))
+
         self.ui.tableAllProperty.resizeColumnsToContents()
 
     def show_error(self, err):
