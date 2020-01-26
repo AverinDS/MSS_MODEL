@@ -2,6 +2,7 @@
 
 from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QTableWidgetItem, QFileDialog, QMessageBox
+from pyqtgraph import mkPen, QtCore
 
 from controller.MainWindowController import MainWindowController
 from layout.main_window import Ui_MainWindow
@@ -22,7 +23,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.controller = MainWindowController(self)
         self.ui.button_load_dataset.clicked.connect(lambda i: self.choose_file())
         self.ui.button_analyse.clicked.connect(self.start_analysis)
-        self.ui.widgetGraphic.setBackground([0, 7, 3, 1])
+        # self.ui.widgetGraphic.setBackground([0, 7, 3, 1])
 
     def start_analysis(self):
         self.controller.make_analysis()
@@ -53,7 +54,8 @@ class MainWindow(QtWidgets.QMainWindow):
         for i_row, row in df.iterrows():
             y_values = [i for i in row.tolist() if not numpy.isnan(i)]
             x_values = [i for i in range(len(y_values))]
-            self.ui.widgetGraphic.plot(x_values, y_values)
+            pen=mkPen('y', width=8, style=QtCore.Qt.SolidLine)
+            self.ui.widgetGraphic.plot(x_values, y_values, pen=pen)
             # self.ui.widgetGraphic.viewRange([min(x_values), max(x_values), min(y_values), max(y_values)])
 
             self.ui.widgetGraphic.setXRange(0, max(x_values))
