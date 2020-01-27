@@ -1,5 +1,6 @@
 # coding=utf8
 
+import numpy
 from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QTableWidgetItem, QFileDialog, QMessageBox
 from pyqtgraph import mkPen, QtCore
@@ -7,8 +8,6 @@ from pyqtgraph import mkPen, QtCore
 from controller.MainWindowController import MainWindowController
 from layout.main_window import Ui_MainWindow
 from model.model_analysis import fields, propertiesDicIndex
-import numpy
-import matplotlib.pyplot as plt
 
 ROUTE_TAG = 'MainWindow'
 
@@ -48,20 +47,19 @@ class MainWindow(QtWidgets.QMainWindow):
             column_i = 0
             for i_col in df.columns:
                 self.ui.tableTS.setItem(i_row, column_i, QTableWidgetItem(str(row[i_col])))
-                column_i+=1
+                column_i += 1
+        self.ui.tableTS.resizeColumnsToContents()
 
     def show_graphic(self, df):
         for i_row, row in df.iterrows():
             y_values = [i for i in row.tolist() if not numpy.isnan(i)]
             x_values = [i for i in range(len(y_values))]
-            pen=mkPen('y', width=8, style=QtCore.Qt.SolidLine)
+            pen = mkPen('y', width=8, style=QtCore.Qt.SolidLine)
             self.ui.widgetGraphic.plot(x_values, y_values, pen=pen)
             # self.ui.widgetGraphic.viewRange([min(x_values), max(x_values), min(y_values), max(y_values)])
 
             self.ui.widgetGraphic.setXRange(0, max(x_values))
             self.ui.widgetGraphic.setYRange(0, max(y_values))
-
-
 
     def show_properties(self, list_model_analysis):
         if len(list_model_analysis) == 0:
